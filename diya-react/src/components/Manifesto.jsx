@@ -79,7 +79,7 @@ export default function Manifesto() {
     const acronymData = [
         { word: "DESIGN.", letters: ["D", "E", "S", "I", "G", "N", "."] },
         { word: "INTELLIGENCE.", letters: ["I", "N", "T", "E", "L", "L", "I", "G", "E", "N", "C", "E", "."] },
-        { word: "YIELDS.", letters: ["Y", "I", "E", "L", "D", "S", "."] },
+        { word: "YIELD.", letters: ["Y", "I", "E", "L", "D", "."] },
         { word: "AUTOMATE.", letters: ["A", "U", "T", "O", "M", "A", "T", "E", "."] }
     ];
 
