@@ -1,68 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import Lenis from '@studio-freight/lenis';
-import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import Marquee from './components/Marquee';
-import BrandStatement from './components/BrandStatement';
-import Manifesto from './components/Manifesto';
-import WhyDiya from './components/WhyDiya';
-import Pricing from './components/Pricing'; // NEW: Smoke & Glass Pricing
-import Footer from './components/Footer';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Home from './components/Home';
+import BrandIntake from './components/BrandIntake';
+import AnalysisLoader from './components/AnalysisLoader';
+import BrandPersona from './components/BrandPersona';
 import './index.css';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-gsap.registerPlugin(ScrollTrigger);
 
 function App() {
-  // ScrollSpy Logic
-  const [activeSection, setActiveSection] = React.useState('home');
-
-  useEffect(() => {
-    const sections = document.querySelectorAll('section, footer');
-    const observerOptions = {
-      root: null,
-      rootMargin: '-50% 0px -50% 0px', // Active when element is in center of viewport
-      threshold: 0
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          setActiveSection(entry.target.id);
-        }
-      });
-    }, observerOptions);
-
-    sections.forEach(section => {
-      if (section.id) observer.observe(section);
-    });
-
-    return () => observer.disconnect();
-  }, []);
-
-  // Scroll Reset Logic (Always Start at Top)
-  React.useLayoutEffect(() => {
-    window.scrollTo(0, 0);
-    if (window.location.hash) {
-      window.history.replaceState(null, null, ' ');
-    }
-  }, []);
-
   return (
-    <div className="app">
-
-      <Navbar activeSection={activeSection} />
-      <main>
-        <section id="home"><Hero /></section>
-        <Marquee />
-        <BrandStatement /> {/* NEW: "Why DIYA" Statement */}
-        <Manifesto />
-        <WhyDiya />
-        <Pricing /> {/* NEW: Features/Pricing Section */}
-        <footer id="connect"><Footer /></footer>
-      </main>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/brand-intake" element={<BrandIntake />} />
+        <Route path="/brand-analysis" element={<AnalysisLoader />} />
+        <Route path="/brand-persona" element={<BrandPersona />} />
+      </Routes>
+    </Router>
   );
 }
 

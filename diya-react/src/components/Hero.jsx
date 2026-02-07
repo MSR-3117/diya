@@ -1,4 +1,5 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 import ThreeDButton from './ThreeDButton';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -26,6 +27,7 @@ export default function Hero() {
     const containerRef = useRef(null);
     const titleRef = useRef(null);
     const shapesRef = useRef([]);
+    const navigate = useNavigate();
     const shapesData = useRef([]); // Physics state
     const [shapes, setShapes] = useState([]);
 
@@ -226,7 +228,7 @@ export default function Hero() {
                     ))}
                 </p>
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
-                    <ThreeDButton />
+                    <ThreeDButton onClick={() => navigate('/brand-intake')} />
                 </div>
             </div>
 

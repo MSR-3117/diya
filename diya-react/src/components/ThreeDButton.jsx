@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import gsap from 'gsap';
 
-const ThreeDButton = () => {
+const ThreeDButton = ({ onClick }) => {
     const buttonRef = useRef(null);
     const contentRef = useRef(null);
 
@@ -64,7 +64,7 @@ const ThreeDButton = () => {
     }, []);
 
     return (
-        <button className="btn-3d-wrap" ref={buttonRef}>
+        <button className="btn-3d-wrap" ref={buttonRef} onClick={onClick}>
             <div className="btn-3d-content" ref={contentRef}>
                 <span className="btn-text">Get Started</span>
                 <span className="btn-icon">

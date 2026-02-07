@@ -1,10 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 
 export default function Navbar({ activeSection }) {
     const navRef = useRef(null);
     const pillRef = useRef(null);
     const [hoveredLink, setHoveredLink] = useState(null);
+    const navigate = useNavigate();
 
     // Update pill position based on activeSection or hover
     useEffect(() => {
@@ -58,7 +60,7 @@ export default function Navbar({ activeSection }) {
                     ))}
                 </div>
 
-                <button className="dock-cta">Get Started</button>
+                <button className="dock-cta" onClick={() => navigate('/brand-intake')}>Get Started</button>
             </nav>
         </header>
     );
