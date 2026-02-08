@@ -20,11 +20,12 @@ export default function BrandPersona() {
     useLayoutEffect(() => {
         const ctx = gsap.context(() => {
             // --- 0. Initial States (Hidden) ---
-            gsap.set('.persona-header h2 .char', { y: 40, opacity: 0, skewY: 10 });
-            gsap.set('.header-meta', { y: 20, opacity: 0 });
-            // HeaderAnnotations handles its own entry
-            gsap.set('.system-nav', { y: -20, opacity: 0 });
-            gsap.set('.glass-card', { y: 60, opacity: 0, scale: 0.95 });
+            // Elements are hidden in CSS (opacity: 0) to prevent FOUC.
+            // We set starting transform positions here.
+            gsap.set('.persona-header h2 .char', { y: 40, skewY: 10 });
+            gsap.set('.header-meta', { y: 20 });
+            gsap.set('.system-nav', { y: -20, opacity: 0 }); // Nav might need manual hide if not in CSS
+            gsap.set('.glass-card', { y: 60, scale: 0.95 });
             gsap.set('.persona-background', { opacity: 0 });
 
             // Box Animation Init
@@ -32,7 +33,8 @@ export default function BrandPersona() {
                 width: 'auto',
                 scaleX: 0,
                 transformOrigin: 'left center',
-                padding: '0 0.3em' // Keep padding consistent to avoid jumps
+                padding: '0 0.3em',
+                opacity: 1 // Make visible so scaleX can work
             });
             gsap.set('.brand-highlight-box span', { opacity: 0 });
 
@@ -86,7 +88,8 @@ export default function BrandPersona() {
                     duration: 1,
                     stagger: 0.1,
                     ease: "power2.out",
-                    clearProps: "all" // CRITICAL: Remove transforms to fix text blur
+                    // Fix: Only clear transforms (for text sharpness), NOT opacity!
+                    clearProps: "transform,scale"
                 }, "-=1.5");
 
         }, containerRef);

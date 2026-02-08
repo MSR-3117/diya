@@ -1,165 +1,27 @@
-/* Analysis Loader Styles (Result: Light Theme) */
+/* Analysis Loader Styles (Clean & Minimal) */
 .analysis-page {
     height: 100vh;
     width: 100vw;
     background-color: #f9f9f9;
-    /* Light Lab Background */
     color: #111;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     font-family: 'Inter', sans-serif;
-    /* Clean Sans */
     overflow: hidden;
     position: relative;
 }
 
-/* Central Progress Ring Container */
-.progress-container {
-    position: relative;
-    width: 300px;
-    height: 300px;
+.loading-status-text {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #666;
+    text-align: center;
+    min-height: 2rem;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 2rem;
-}
-
-.progress-svg {
-    transform: rotate(-90deg);
-    width: 100%;
-    height: 100%;
-}
-
-.progress-circle-bg {
-    fill: none;
-    stroke: #e0e0e0;
-    /* Light Gray Track */
-    stroke-width: 2;
-}
-
-.progress-circle-bar {
-    fill: none;
-    stroke: #00c237;
-    /* Vibrant Green */
-    stroke-width: 4;
-    stroke-dasharray: 880;
-    stroke-dashoffset: 880;
-    transition: stroke-dashoffset 0.1s linear;
-    filter: drop-shadow(0 0 8px rgba(0, 194, 55, 0.4));
-}
-
-.scan-text {
-    position: absolute;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.scan-percentage {
-    font-size: 4rem;
-    font-weight: 800;
-    color: #111;
-    letter-spacing: -2px;
-}
-
-.scan-label {
-    font-size: 0.8rem;
-    color: #666;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    margin-top: 5px;
-    font-weight: 600;
-}
-
-/* Terminal Log Area */
-.terminal-log {
-    width: 100%;
-    max-width: 600px;
-    height: 150px;
-    background: rgba(255, 255, 255, 0.8);
-    /* Glass White */
-    border: 1px solid rgba(0, 0, 0, 0.05);
-    /* Subtle border */
-    backdrop-filter: blur(10px);
-    padding: 1rem;
-    overflow: hidden;
-    position: relative;
-    border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-    /* Soft Shadow */
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    font-family: 'Courier New', monospace;
-}
-
-.log-entry {
-    font-size: 0.85rem;
-    margin-bottom: 6px;
-    opacity: 0.8;
-    color: #333;
-}
-
-.log-entry.success {
-    color: #00992b;
-    /* Darker Green for readability on white */
-    font-weight: 600;
-}
-
-.log-entry.warning {
-    color: #d35400;
-}
-
-.log-entry.info {
-    color: #2980b9;
-}
-
-/* Ambient "Grid" Scan Effect */
-.scan-grid {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    /* Subtle Green Grid on White */
-    background: linear-gradient(rgba(0, 194, 55, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 194, 55, 0.03) 1px, transparent 1px);
-    background-size: 40px 40px;
-    pointer-events: none;
-    z-index: 0;
-}
-
-.scan-line {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, #00c237, transparent);
-    opacity: 0.3;
-    z-index: 1;
-    animation: scanMove 3s linear infinite;
-}
-
-@keyframes scanMove {
-    0% {
-        top: 0%;
-        opacity: 0;
-    }
-
-    10% {
-        opacity: 0.5;
-    }
-
-    90% {
-        opacity: 0.5;
-    }
-
-    100% {
-        top: 100%;
-        opacity: 0;
-    }
+    letter-spacing: 0.02em;
 }

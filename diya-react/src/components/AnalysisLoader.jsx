@@ -1,57 +1,62 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import React, { useLayoutEffect, useRef, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 import '../css/analysis-loader.css';
+import BoxLoader from './ui/BoxLoader';
+import GravityShapes from './ui/GravityShapes';
+import BrandFacts from './ui/BrandFacts';
 
-const LOG_MESSAGES = [
-    { text: "Connecting to server...", type: "info", delay: 0 },
-    { text: "Handshake successful. Secure connection established.", type: "success", delay: 500 },
-    { text: "Fetching site metadata...", type: "info", delay: 1000 },
-    { text: "Found <title> tag: 'Diya | AI Branding'.", type: "success", delay: 1200 },
-    { text: "Extracting color palette...", type: "info", delay: 1800 },
-    { text: "Detected Primary Mode: Light / Clean", type: "success", delay: 2200 },
-    { text: "Detected Accent Color: #00c237", type: "success", delay: 2300 },
-    { text: "Analyzing typography assets...", type: "info", delay: 2800 },
-    { text: "Font family 'Inter' identified.", type: "success", delay: 3100 },
-    { text: "Synthesizing Brand Persona...", type: "warning", delay: 3500 },
-    { text: "Generation complete. Redirecting...", type: "success", delay: 4200 },
+const LOADING_STEPS = [
+    "Analyzing your responses...",
+    "Detecting your brand's unique voice...",
+    "Curating your perfect color palette...",
+    "Designing your custom persona..."
 ];
 
 export default function AnalysisLoader() {
     const navigate = useNavigate();
     const containerRef = useRef(null);
-    const circleRef = useRef(null);
     const textRef = useRef(null);
-    const [logs, setLogs] = useState([]);
-    const [percentage, setPercentage] = useState(0);
+    const [statusText, setStatusText] = useState(LOADING_STEPS[0]);
 
-    // 1. Progress Bar Animation
     useLayoutEffect(() => {
         const ctx = gsap.context(() => {
-            // Animate Percentage Text
-            gsap.to(textRef.current, {
-                innerText: 100,
-                duration: 4.5,
-                snap: { innerText: 1 },
-                ease: "power1.inOut",
-                onUpdate: function () {
-                    setPercentage(Math.ceil(this.targets()[0].innerText));
-                }
+            const tl = gsap.timeline();
+
+            // --- A. Master Text Cycle (Total ~10s) ---
+            LOADING_STEPS.forEach((step, index) => {
+                // 1. Set Text (Immediate)
+                tl.call(() => setStatusText(step))
+
+                    // 2. Fade In (Smooth)
+                    .fromTo(textRef.current,
+                        { opacity: 0, y: 10 },
+                        { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" }
+                    )
+
+                    // 3. Hold (Readability)
+                    .to(textRef.current, {
+                        opacity: 1,
+                        duration: 1.2
+                    }) // Dummy tween for delay
+
+                    // 4. Fade Out (Clean exit, except last one stays a bit longer before page exit)
+                    .to(textRef.current, {
+                        opacity: 0,
+                        y: -10,
+                        duration: 0.5,
+                        ease: "power2.in"
+                    });
             });
 
-            // Animate Circle Stroke
-            const circumference = 880; // 2 * PI * 140
-            gsap.fromTo(circleRef.current,
-                { strokeDashoffset: circumference },
-                { strokeDashoffset: 0, duration: 4.5, ease: "power1.inOut" }
-            );
-
-            // Exit Animation & Redirect
-            gsap.delayedCall(4.8, () => {
+            // --- B. Exit Sequence (At ~10s) ---
+            // Triggered after the text cycle completes
+            tl.call(() => {
                 gsap.to(containerRef.current, {
                     opacity: 0,
-                    scale: 0.9,
-                    duration: 0.5,
+                    scale: 0.95,
+                    duration: 0.8,
+                    ease: "power2.inOut",
                     onComplete: () => navigate('/brand-persona')
                 });
             });
@@ -60,56 +65,35 @@ export default function AnalysisLoader() {
         return () => ctx.revert();
     }, [navigate]);
 
-    // 2. Log Simulation
-    useEffect(() => {
-        let timeouts = [];
-
-        LOG_MESSAGES.forEach((msg) => {
-            const timeout = setTimeout(() => {
-                setLogs(prev => [...prev, msg]);
-                // Auto-scroll to bottom driven by CSS or layout update, 
-                // but since array expansion forces re-render, we can just rely on flex-end
-            }, msg.delay);
-            timeouts.push(timeout);
-        });
-
-        return () => timeouts.forEach(clearTimeout);
-    }, []);
-
     return (
-        <div className="analysis-page" ref={containerRef}>
-            <div className="scan-grid"></div>
-            <div className="scan-line"></div>
+        <div className="analysis-page" ref={containerRef} style={{ background: '#f9f9f9', position: 'relative', overflow: 'hidden' }}>
+            {/* 1. Background Layer (Falling Shapes) */}
+            <GravityShapes />
 
-            <div className="progress-container">
-                <svg className="progress-svg" viewBox="0 0 300 300">
-                    <circle
-                        className="progress-circle-bg"
-                        cx="150" cy="150" r="140"
-                    />
-                    <circle
-                        ref={circleRef}
-                        className="progress-circle-bar"
-                        cx="150" cy="150" r="140"
-                    />
-                </svg>
-                <div className="scan-text">
-                    <span className="scan-percentage" ref={textRef}>0</span>
-                    <span className="scan-label">%</span>
+            {/* 2. Content Layer (Loader & Status) */}
+            <div style={{ position: 'relative', zIndex: 10, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <div style={{ marginBottom: '2rem' }}>
+                    <BoxLoader />
+                </div>
+
+                <div className="loading-status-text" ref={textRef} style={{
+                    fontFamily: '"Inter", sans-serif',
+                    fontSize: '1.1rem',
+                    fontWeight: 500,
+                    color: '#666',
+                    textAlign: 'center',
+                    minHeight: '2rem', // Prevent layout shift
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    letterSpacing: '0.02em'
+                }}>
+                    {statusText}
                 </div>
             </div>
 
-            <div className="terminal-log">
-                {logs.map((log, i) => (
-                    <div key={i} className={`log-entry ${log.type}`}>
-                        {`> ${log.text}`}
-                    </div>
-                ))}
-            </div>
-
-            <h3 style={{ marginTop: '2rem', fontSize: '1.2rem', letterSpacing: '1px', textTransform: 'uppercase', opacity: 0.8 }}>
-                Deconstructing Brand Identity...
-            </h3>
+            {/* 3. Foreground Layer (Brand Facts) */}
+            <BrandFacts />
         </div>
     );
 }

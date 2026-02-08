@@ -56,6 +56,8 @@
     transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     display: flex;
     flex-direction: column;
+    opacity: 0;
+    /* Init Hidden for Animation */
 }
 
 .glass-card:hover {
@@ -289,6 +291,8 @@
 .persona-header h2 .char {
     backface-visibility: hidden;
     transform-style: preserve-3d;
+    opacity: 0;
+    /* Init Hidden */
 }
 
 /* The Cool Black Box */
@@ -302,6 +306,9 @@
     position: relative;
     overflow: hidden;
     /* For swipe reveal */
+    /* Init Hidden handled by GSAP setup but safer here too if needed, 
+       though scaleX:0 is usually enough. Let's start opacity 0 for safety */
+    opacity: 0;
 }
 
 .brand-highlight-box span {
@@ -311,12 +318,15 @@
     font-weight: 900;
     position: relative;
     z-index: 2;
+    opacity: 0;
 }
 
 .header-meta {
     font-size: 1rem;
     color: #666;
     font-weight: 500;
+    opacity: 0;
+    /* Init Hidden */
 }
 
 .persona-page {
