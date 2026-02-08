@@ -35,7 +35,6 @@ export default function MouseSpotlight() {
             background: 'radial-gradient(circle, rgba(0, 194, 55, 0.15) 0%, rgba(255,255,255,0) 70%)',
             pointerEvents: 'none',
             zIndex: 1, // Underlying layer
-            mixBlendMode: 'screen'
         }} />
     );
 }

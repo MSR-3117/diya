@@ -7,14 +7,14 @@ const LOG_MESSAGES = [
     { text: "Connecting to server...", type: "info", delay: 0 },
     { text: "Handshake successful. Secure connection established.", type: "success", delay: 500 },
     { text: "Fetching site metadata...", type: "info", delay: 1000 },
-    { text: "Found <title> tag.", type: "success", delay: 1200 },
+    { text: "Found <title> tag: 'Diya | AI Branding'.", type: "success", delay: 1200 },
     { text: "Extracting color palette...", type: "info", delay: 1800 },
-    { text: "Detected Primary Color: #111111", type: "success", delay: 2200 },
+    { text: "Detected Primary Mode: Light / Clean", type: "success", delay: 2200 },
     { text: "Detected Accent Color: #00c237", type: "success", delay: 2300 },
     { text: "Analyzing typography assets...", type: "info", delay: 2800 },
     { text: "Font family 'Inter' identified.", type: "success", delay: 3100 },
-    { text: "Generating Brand Persona...", type: "warning", delay: 3500 },
-    { text: "Synthesis complete.", type: "success", delay: 4200 },
+    { text: "Synthesizing Brand Persona...", type: "warning", delay: 3500 },
+    { text: "Generation complete. Redirecting...", type: "success", delay: 4200 },
 ];
 
 export default function AnalysisLoader() {

@@ -1,45 +1,214 @@
 import React, { useLayoutEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
+import '../css/brand-persona.css';
+import SystemNav from './SystemNav';
+import PersonaBackground from './PersonaBackground';
+import HeaderAnnotations from './HeaderAnnotations';
 
 export default function BrandPersona() {
     const containerRef = useRef(null);
+    const navigate = useNavigate();
+
+    // Helper to split text for character animations
+    const splitText = (text) => text.split('').map((char, i) => (
+        <span key={i} className="char" style={{ display: 'inline-block', whiteSpace: char === ' ' ? 'pre' : 'normal' }}>
+            {char}
+        </span>
+    ));
 
     useLayoutEffect(() => {
         const ctx = gsap.context(() => {
-            gsap.from(containerRef.current, {
-                opacity: 0,
-                y: 50,
-                duration: 1,
-                ease: "power3.out"
+            // --- 0. Initial States (Hidden) ---
+            gsap.set('.persona-header h2 .char', { y: 40, opacity: 0, skewY: 10 });
+            gsap.set('.header-meta', { y: 20, opacity: 0 });
+            // HeaderAnnotations handles its own entry
+            gsap.set('.system-nav', { y: -20, opacity: 0 });
+            gsap.set('.glass-card', { y: 60, opacity: 0, scale: 0.95 });
+            gsap.set('.persona-background', { opacity: 0 });
+
+            // Box Animation Init
+            gsap.set('.brand-highlight-box', {
+                width: 'auto',
+                scaleX: 0,
+                transformOrigin: 'left center',
+                padding: '0 0.3em' // Keep padding consistent to avoid jumps
             });
+            gsap.set('.brand-highlight-box span', { opacity: 0 });
+
+            const tl = gsap.timeline();
+
+            // --- 1. Header Text Reveal (MEET YOUR ... PERSONA) ---
+            tl.to('.persona-header h2 .char', {
+                y: 0,
+                opacity: 1,
+                skewY: 0,
+                duration: 1,
+                stagger: 0.04,
+                ease: "power3.out", // Smoother ease
+                willChange: "transform, opacity" // Optimization
+            })
+
+                // --- 1.5. THE SICK BOX REVEAL ---
+                // Step A: Expand Box (ScaleX for performance)
+                .to('.brand-highlight-box', {
+                    scaleX: 1,
+                    duration: 0.6,
+                    ease: "expo.out"
+                }, "-=0.6")
+                // Step B: Reveal Green Text inside
+                .to('.brand-highlight-box span', {
+                    opacity: 1,
+                    duration: 0.2
+                }, "-=0.2")
+
+                // --- 2. Sub-header & Nav Fade In ---
+                .to(['.header-meta', '.system-nav'], {
+                    y: 0,
+                    opacity: 1,
+                    duration: 0.8,
+                    stagger: 0.2,
+                    ease: "power2.out"
+                }, "-=0.2")
+
+                // --- 3. Background Slow Fade ---
+                .to('.persona-background', {
+                    opacity: 1,
+                    duration: 2,
+                    ease: "power1.inOut"
+                }, "-=1")
+
+                // --- 4. Grid Waterfall (Staggered Cards) ---
+                .to('.glass-card', {
+                    y: 0,
+                    opacity: 1,
+                    scale: 1,
+                    duration: 1,
+                    stagger: 0.1,
+                    ease: "power2.out",
+                    clearProps: "all" // CRITICAL: Remove transforms to fix text blur
+                }, "-=1.5");
+
         }, containerRef);
         return () => ctx.revert();
     }, []);
 
+    const copyToClipboard = (text) => {
+        navigator.clipboard.writeText(text);
+        // Could add toast notification here
+    };
+
     return (
-        <div ref={containerRef} style={{
-            height: '100vh',
-            width: '100%',
-            backgroundColor: '#f4f4f4',
-            color: '#111',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            flexDirection: 'column',
-            fontFamily: 'var(--font-heading)'
-        }}>
-            <h1 style={{ fontSize: '3rem', marginBottom: '1rem' }}>Brand Persona Generated</h1>
-            <p style={{ fontSize: '1.2rem', color: '#666' }}>Dashboard Placeholder</p>
-            <div style={{
-                marginTop: '2rem',
-                padding: '2rem',
-                background: 'white',
-                borderRadius: '10px',
-                boxShadow: '0 10px 30px rgba(0,0,0,0.1)'
-            }}>
-                <div style={{ marginBottom: '1rem' }}><strong>Primary Color:</strong> #111111</div>
-                <div style={{ marginBottom: '1rem' }}><strong>Accent Color:</strong> #00c237</div>
-                <div><strong>Typography:</strong> Inter</div>
+        <div className="persona-page" ref={containerRef}>
+            <PersonaBackground />
+
+            <SystemNav
+                step={3}
+                totalSteps={3}
+                onBack={() => navigate('/brand-intake')}
+            />
+
+            <div className="persona-header">
+                <HeaderAnnotations />
+                <h2>
+                    {splitText("MEET YOUR")}
+                    {/* The Sick Box */}
+                    <div className="brand-highlight-box">
+                        <span>BRAND</span>
+                    </div>
+                    {splitText("PERSONA")}
+                </h2>
+                <div className="header-meta">Here's how DIYA sees your brand</div>
+            </div>
+
+            <div className="bento-grid">
+                {/* 1. IDENTITY CARD (Hero) */}
+                <div className="glass-card card-identity">
+                    <div className="card-label">Brand Identity</div>
+                    <h1 className="card-title">Diya.ai</h1>
+                    <p className="card-subtitle">
+                        Modern, Scientific, & Approachable.
+                    </p>
+                    <div style={{ marginTop: '2rem', display: 'flex', gap: '1rem' }}>
+                        <div style={{ width: '40px', height: '40px', background: '#111', borderRadius: '50%' }}></div>
+                        {/* Placeholder Logo Mark */}
+                    </div>
+                </div>
+
+                {/* 2. COLORS CARD */}
+                <div className="glass-card card-colors">
+                    <div className="swatch-container">
+                        <div className="color-swatch" style={{ backgroundColor: '#111111' }} onClick={() => copyToClipboard('#111111')}>
+                            <span>#111111</span>
+                        </div>
+                        <div className="color-swatch" style={{ backgroundColor: '#00c237' }} onClick={() => copyToClipboard('#00c237')}>
+                            <span>#00c237</span>
+                        </div>
+                        <div className="color-swatch" style={{ backgroundColor: '#f9f9f9', color: '#333', border: '1px solid #eee' }} onClick={() => copyToClipboard('#f9f9f9')}>
+                            <span>#f9f9f9</span>
+                        </div>
+                    </div>
+                </div>
+
+                {/* 3. TYPOGRAPHY CARD */}
+                <div className="glass-card card-typography">
+                    <div className="card-label">Typography</div>
+                    <div className="type-preview">Aa</div>
+                    <div className="font-name">Inter</div>
+                    <p style={{ marginTop: '0.5rem', opacity: 0.7 }}>Variable Sans</p>
+                    <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: '0.5rem', opacity: 0.6, fontSize: '0.8rem' }}>
+                        <span>Regular 400</span>
+                        <span>Medium 500</span>
+                        <span style={{ fontWeight: 700 }}>Bold 700</span>
+                    </div>
+                </div>
+
+                {/* 4. BRAND VOICE CARD */}
+                <div className="glass-card card-voice">
+                    <div className="card-label">Brand Voice</div>
+                    <div className="voice-tags">
+                        <span className="voice-tag">Professional</span>
+                        <span className="voice-tag">Clean</span>
+                        <span className="voice-tag">Innovative</span>
+                        <span className="voice-tag">Trustworthy</span>
+                        <span className="voice-tag">Minimal</span>
+                    </div>
+                    <div style={{ marginTop: 'auto', fontSize: '0.9rem', lineHeight: '1.5', color: '#555' }}>
+                        "Communicates with precision and clarity, avoiding jargon while maintaining a friendly, expert tone."
+                    </div>
+                </div>
+
+                {/* 5. VISUAL STYLE (Placeholder for now) */}
+                <div className="glass-card card-visual">
+                    <div className="card-label">Visual Direction</div>
+                    <div style={{
+                        width: '100%', height: '100px',
+                        background: 'linear-gradient(90deg, #f9f9f9 0%, #eee 50%, #f9f9f9 100%)',
+                        borderRadius: '12px',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 600, color: '#999',
+                        letterSpacing: '1px'
+                    }}>
+                        GLASSMORPHISM & GRIDS
+                    </div>
+                </div>
+
+                {/* 6. ACTION CARD */}
+                <div className="glass-card card-actions" onClick={() => console.log('Exporting...')}>
+                    <div style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>Download Assets</div>
+                    <div style={{ opacity: 0.7, fontSize: '0.9rem' }}>Export Brand Kit (PDF, SVG)</div>
+                </div>
+
+                {/* 7. NAVIGATION/META CARD (Fills the gap) */}
+                <div className="glass-card card-nav">
+                    <div className="card-label">Next Steps</div>
+                    <button className="nav-action-btn" onClick={() => window.location.href = '/'}>
+                        Start New Analysis
+                    </button>
+                    <div style={{ marginTop: 'auto', fontSize: '0.8rem', opacity: 0.5 }}>
+                        Generated on {new Date().toLocaleDateString()}
+                    </div>
+                </div>
+
             </div>
         </div>
     );

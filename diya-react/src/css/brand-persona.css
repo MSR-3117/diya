@@ -1,0 +1,353 @@
+/* Brand Persona Dashboard - Light Glass Bento Theme */
+:root {
+    --glass-bg: rgba(255, 255, 255, 0.65);
+    --glass-border: rgba(255, 255, 255, 0.8);
+    --glass-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+    --accent-green: #00c237;
+    --text-primary: #111;
+    --text-secondary: #666;
+}
+
+.persona-page {
+    min-height: 100vh;
+    width: 100%;
+    background-color: #f9f9f9;
+    color: var(--text-primary);
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    padding: 2rem;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden;
+    position: relative;
+    z-index: 100;
+    /* Ensure strictly above global ambient background */
+}
+
+/* Bento Grid Layout */
+.bento-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(3, minmax(180px, auto));
+    gap: 1.5rem;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    /* Removed perspective to prevent text blur */
+    position: relative;
+    z-index: 10;
+}
+
+/* Reusable Glass Card */
+.glass-card {
+    background: #ffffff;
+    /* Solid Opaque White */
+    border: 1px solid #dcdcdc;
+    /* Darker border for clarity */
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    /* Slightly darker shadow */
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    display: flex;
+    flex-direction: column;
+}
+
+.glass-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    /* Sharper hover shadow */
+    border-color: #bbb;
+}
+
+/* Card Specifics */
+
+/* 1. Identity Hero (Span 2 cols, 2 rows) */
+.card-identity {
+    grid-column: span 2;
+    grid-row: span 2;
+    background: #ffffff;
+    /* No more foggy gradient */
+    justify-content: center;
+    align-items: flex-start;
+}
+
+/* 2. Color Palette (Span 2 cols, 1 row) */
+.card-colors {
+    grid-column: span 2;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+}
+
+/* 3. Typography (Span 1 col, 2 rows) */
+.card-typography {
+    grid-column: span 1;
+    grid-row: span 2;
+}
+
+/* 4. Brand Voice (Span 1 col, 2 rows) */
+.card-voice {
+    grid-column: span 1;
+    grid-row: span 2;
+}
+
+/* 5. Visual Style / Example (Span 2 cols, 1 row - Bottom) */
+.card-visual {
+    grid-column: span 2;
+    grid-row: span 1;
+}
+
+/* 6. Action / Export (Span 2 cols, 1 row - Bottom) */
+.card-actions {
+    grid-column: span 2;
+    grid-row: span 1;
+    background: #111;
+    /* Dark Contrast Card */
+    color: #fff;
+    align-items: center;
+    justify-content: center;
+}
+
+.card-actions:hover {
+    background: #000;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+/* Content Styles */
+.card-title {
+    font-size: 3rem;
+    font-weight: 900;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    margin-bottom: 0.8rem;
+    color: #000000 !important;
+    opacity: 1 !important;
+    background: none !important;
+    -webkit-background-clip: border-box !important;
+    background-clip: border-box !important;
+    -webkit-text-fill-color: initial !important;
+}
+
+.card-subtitle {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #333333 !important;
+    opacity: 1 !important;
+    line-height: 1.4;
+    max-width: 90%;
+}
+
+.card-label {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #444444 !important;
+    opacity: 1 !important;
+    margin-bottom: 1rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Color Swatches */
+.swatch-container {
+    display: flex;
+    gap: 1rem;
+    width: 100%;
+}
+
+.color-swatch {
+    flex: 1;
+    height: 100px;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    display: flex;
+    align-items: flex-end;
+    padding: 1rem;
+    font-family: monospace;
+    font-size: 0.9rem;
+    color: #fff;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    position: relative;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.color-swatch:hover {
+    transform: scale(1.05) translateY(-5px);
+    z-index: 10;
+}
+
+/* Typography Preview */
+.type-preview {
+    font-size: 8rem;
+    line-height: 0.8;
+    font-weight: 800;
+    display: block;
+    margin: 1rem 0;
+    opacity: 0.1;
+    position: absolute;
+    bottom: -20px;
+    right: -20px;
+    pointer-events: none;
+}
+
+.font-name {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-top: auto;
+}
+
+/* Voice Tags */
+.voice-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+}
+
+.voice-tag {
+    padding: 0.6rem 1.2rem;
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #333;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .bento-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .card-identity {
+        grid-column: span 2;
+    }
+
+    .card-colors {
+        grid-column: span 2;
+    }
+
+    .card-typography {
+        grid-column: span 1;
+    }
+
+    .card-voice {
+        grid-column: span 1;
+    }
+
+    .card-visual {
+        grid-column: span 2;
+    }
+
+    .card-actions {
+        grid-column: span 2;
+    }
+
+    .bento-grid {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+/* Page Header */
+.persona-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    margin-top: 3rem;
+    position: relative;
+    /* Anchor for annotations */
+    z-index: 20;
+    /* Space for SystemNav */
+}
+
+.persona-header h2 {
+    font-size: 3.5rem;
+    font-weight: 900;
+    letter-spacing: -0.04em;
+    /* Tighten up */
+    margin-bottom: 0.5rem;
+    color: #111;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.15em;
+    flex-wrap: wrap;
+}
+
+/* Optimization for animation jitter */
+.persona-header h2 .char {
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
+}
+
+/* The Cool Black Box */
+.brand-highlight-box {
+    display: inline-block;
+    background: #000;
+    color: #00c237;
+    padding: 0 0.3em;
+    transform: skewX(-10deg);
+    margin: 0 0.1em;
+    position: relative;
+    overflow: hidden;
+    /* For swipe reveal */
+}
+
+.brand-highlight-box span {
+    display: inline-block;
+    transform: skewX(10deg);
+    /* Un-skew text */
+    font-weight: 900;
+    position: relative;
+    z-index: 2;
+}
+
+.header-meta {
+    font-size: 1rem;
+    color: #666;
+    font-weight: 500;
+}
+
+.persona-page {
+    flex-direction: column;
+    /* Stack header and grid */
+    justify-content: flex-start;
+    /* Start from top */
+}
+
+/* Navigation Card (Fills gap) */
+.card-nav {
+    grid-column: span 2;
+    grid-row: span 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.nav-action-btn {
+    padding: 0.8rem 1.5rem;
+    background: #f1f1f1;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    align-self: flex-start;
+}
+
+.nav-action-btn:hover {
+    background: #e1e1e1;
+    transform: translateY(-2px);
+}
