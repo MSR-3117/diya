@@ -201,7 +201,7 @@ export default function BrandPersona() {
                     </button>
 
                     {/* NEXT STEPS PILL (Minimal Professional) */}
-                    <ModernButton onClick={() => window.location.href = '/'}>
+                    <ModernButton onClick={() => navigate('/content-direction')}>
                         Looks good. Let DIYA take over.
                     </ModernButton>
                 </div>

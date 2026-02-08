@@ -4,6 +4,7 @@ import Home from './components/Home';
 import BrandIntake from './components/BrandIntake';
 import AnalysisLoader from './components/AnalysisLoader';
 import BrandPersona from './components/BrandPersona';
+import ContentDirection from './components/ContentDirection';
 import './index.css';
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
         <Route path="/brand-intake" element={<BrandIntake />} />
         <Route path="/brand-analysis" element={<AnalysisLoader />} />
         <Route path="/brand-persona" element={<BrandPersona />} />
+        <Route path="/content-direction" element={<ContentDirection />} />
       </Routes>
     </Router>
   );
