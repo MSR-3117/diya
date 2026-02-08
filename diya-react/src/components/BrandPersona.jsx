@@ -5,6 +5,7 @@ import '../css/brand-persona.css';
 import SystemNav from './SystemNav';
 import PersonaBackground from './PersonaBackground';
 import HeaderAnnotations from './HeaderAnnotations';
+import ModernButton from './ui/ModernButton';
 
 export default function BrandPersona() {
     const containerRef = useRef(null);
@@ -24,7 +25,7 @@ export default function BrandPersona() {
             // We set starting transform positions here.
             gsap.set('.persona-header h2 .char', { y: 40, skewY: 10 });
             gsap.set('.header-meta', { y: 20 });
-            gsap.set('.system-nav', { y: -20, opacity: 0 }); // Nav might need manual hide if not in CSS
+            gsap.set('.system-nav', { y: -20, opacity: 0 });
             gsap.set('.glass-card', { y: 60, scale: 0.95 });
             gsap.set('.persona-background', { opacity: 0 });
 
@@ -47,18 +48,15 @@ export default function BrandPersona() {
                 skewY: 0,
                 duration: 1,
                 stagger: 0.04,
-                ease: "power3.out", // Smoother ease
-                willChange: "transform, opacity" // Optimization
+                ease: "power3.out",
+                willChange: "transform, opacity"
             })
-
                 // --- 1.5. THE SICK BOX REVEAL ---
-                // Step A: Expand Box (ScaleX for performance)
                 .to('.brand-highlight-box', {
                     scaleX: 1,
                     duration: 0.6,
                     ease: "expo.out"
                 }, "-=0.6")
-                // Step B: Reveal Green Text inside
                 .to('.brand-highlight-box span', {
                     opacity: 1,
                     duration: 0.2
@@ -88,7 +86,6 @@ export default function BrandPersona() {
                     duration: 1,
                     stagger: 0.1,
                     ease: "power2.out",
-                    // Fix: Only clear transforms (for text sharpness), NOT opacity!
                     clearProps: "transform,scale"
                 }, "-=1.5");
 
@@ -115,7 +112,6 @@ export default function BrandPersona() {
                 <HeaderAnnotations />
                 <h2>
                     {splitText("MEET YOUR")}
-                    {/* The Sick Box */}
                     <div className="brand-highlight-box">
                         <span>BRAND</span>
                     </div>
@@ -134,7 +130,6 @@ export default function BrandPersona() {
                     </p>
                     <div style={{ marginTop: '2rem', display: 'flex', gap: '1rem' }}>
                         <div style={{ width: '40px', height: '40px', background: '#111', borderRadius: '50%' }}></div>
-                        {/* Placeholder Logo Mark */}
                     </div>
                 </div>
 
@@ -181,7 +176,7 @@ export default function BrandPersona() {
                     </div>
                 </div>
 
-                {/* 5. VISUAL STYLE (Placeholder for now) */}
+                {/* 5. VISUAL STYLE */}
                 <div className="glass-card card-visual">
                     <div className="card-label">Visual Direction</div>
                     <div style={{
@@ -195,21 +190,20 @@ export default function BrandPersona() {
                     </div>
                 </div>
 
-                {/* 6. ACTION CARD */}
-                <div className="glass-card card-actions" onClick={() => console.log('Exporting...')}>
-                    <div style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>Download Assets</div>
-                    <div style={{ opacity: 0.7, fontSize: '0.9rem' }}>Export Brand Kit (PDF, SVG)</div>
-                </div>
-
-                {/* 7. NAVIGATION/META CARD (Fills the gap) */}
-                <div className="glass-card card-nav">
-                    <div className="card-label">Next Steps</div>
-                    <button className="nav-action-btn" onClick={() => window.location.href = '/'}>
-                        Start New Analysis
+                {/* ACTION DOCK */}
+                <div className="action-dock">
+                    {/* DOWNLOAD PILL (Secondary - Crystal) */}
+                    <button
+                        className="crystal-btn"
+                        onClick={() => console.log('Exporting...')}
+                    >
+                        ↓ Download Assets
                     </button>
-                    <div style={{ marginTop: 'auto', fontSize: '0.8rem', opacity: 0.5 }}>
-                        Generated on {new Date().toLocaleDateString()}
-                    </div>
+
+                    {/* NEXT STEPS PILL (Minimal Professional) */}
+                    <ModernButton onClick={() => window.location.href = '/'}>
+                        Looks good. Let DIYA take over.
+                    </ModernButton>
                 </div>
 
             </div>
